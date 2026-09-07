@@ -1,94 +1,82 @@
 from pathlib import Path
+
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+
+# ---------------------------------------------------------
+# 1. Project paths
+# ---------------------------------------------------------
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-DATA_PATH = PROJECT_ROOT / "data" / "clean_data.csv"
+INPUT_PATH = PROJECT_ROOT / "data" / "clean_data.csv"
+OUTPUT_PATH = PROJECT_ROOT / "data" / "viral_scores.csv"
 
-df = pd.read_csv(DATA_PATH)
 
-# print(df.head())
-# print(df.columns)
+# ---------------------------------------------------------
+# 2. Load preprocessed data
+# ---------------------------------------------------------
 
-# -------------------------------------------------
-# Engagement
-# -------------------------------------------------
+df = pd.read_csv(INPUT_PATH)
 
-df["Engagement"] = df["Likes"] + df["Retweets"]
+print(f"Loaded dataset: {df.shape}")
 
-print(df[["Hashtag","Engagement"]].head())
 
-# -------------------------------------------------
-# Sentiments
-# -------------------------------------------------
-
-from nltk.sentiment import SentimentIntensityAnalyzer
+# ---------------------------------------------------------
+# 3. Calculate VADER sentiment
+# ---------------------------------------------------------
 
 sia = SentimentIntensityAnalyzer()
 
-# Calculate sentiment for every post
 df["SentimentScore"] = df["Text"].apply(
     lambda text: sia.polarity_scores(str(text))["compound"]
 )
 
-print(df[["Text", "SentimentScore"]].head())
 
-# -------------------------------------------------
-# Network Feature
-# -------------------------------------------------
+# ---------------------------------------------------------
+# 4. Prepare hashtag data
+# ---------------------------------------------------------
 
-network = (
-    df.groupby("Hashtag")["User"]
-      .nunique()
-      .reset_index()
-)
+# Hashtags have already been extracted and exploded
+# during preprocessing.
+df["Hashtag"] = df["Hashtag"].astype(str).str.strip()
 
-network.rename(
-    columns={
-        "User":"UniqueUsers"
-    },
-    inplace=True
-)
+df = df[df["Hashtag"] != ""]
 
-# -------------------------------------------------
-# Temporal
-# -------------------------------------------------
+print(f"Hashtag-level dataset: {df.shape}")
 
-temporal = (
-    df.groupby("Hashtag")
-      .size()
-      .reset_index(name="PostCount")
-)
 
-# -------------------------------------------------
-# Aggregate
-# -------------------------------------------------
+# ---------------------------------------------------------
+# 5. Calculate engagement
+# ---------------------------------------------------------
+
+df["Likes"] = pd.to_numeric(df["Likes"], errors="coerce").fillna(0)
+df["Retweets"] = pd.to_numeric(df["Retweets"], errors="coerce").fillna(0)
+
+df["Engagement"] = df["Likes"] + df["Retweets"]
+
+
+# ---------------------------------------------------------
+# 6. Aggregate features by hashtag
+# ---------------------------------------------------------
 
 summary = (
     df.groupby("Hashtag")
-      .agg({
-
-          "Engagement":"mean",
-
-          "SentimentScore":"mean"
-
-      })
-      .reset_index()
+    .agg(
+        Engagement=("Engagement", "sum"),
+        SentimentScore=("SentimentScore", "mean"),
+        UniqueUsers=("User", "nunique"),
+        PostCount=("Hashtag", "size")
+    )
+    .reset_index()
 )
 
-summary = summary.merge(network,on="Hashtag")
-summary = summary.merge(temporal,on="Hashtag")
-summary = summary[summary["PostCount"] >= 2]
-print(f"Number of hashtags after filtering: {len(summary)}")
 
-print("\nFeature Summary")
-print(summary.head(10))
-
-# -------------------------------------------------
-# Normalize
-# -------------------------------------------------
-
-from sklearn.preprocessing import MinMaxScaler
+# ---------------------------------------------------------
+# 7. Normalise feature values
+# ---------------------------------------------------------
 
 features = [
     "Engagement",
@@ -99,14 +87,16 @@ features = [
 
 scaler = MinMaxScaler()
 
-summary[[f"{c}_Norm" for c in features]] = scaler.fit_transform(
+normalised_features = [f"{feature}_Norm" for feature in features]
+
+summary[normalised_features] = scaler.fit_transform(
     summary[features]
 )
 
 
-# -------------------------------------------------
-# Viral Potential Score
-# -------------------------------------------------
+# ---------------------------------------------------------
+# 8. Calculate Viral Potential Score
+# ---------------------------------------------------------
 
 summary["VPS"] = (
       0.40 * summary["Engagement_Norm"]
@@ -115,44 +105,37 @@ summary["VPS"] = (
     + 0.10 * summary["PostCount_Norm"]
 )
 
+
+# ---------------------------------------------------------
+# 9. Sort by VPS
+# ---------------------------------------------------------
+
 summary = summary.sort_values(
     "VPS",
     ascending=False
-)
+).reset_index(drop=True)
 
-print("\nTop 10 Viral Hashtags")
 
-print(
-    summary[
-        [
-            "Hashtag",
-            "VPS",
-            "Engagement",
-            "SentimentScore",
-            "UniqueUsers",
-            "PostCount"
-        ]
-    ].head(10)
-)
+# ---------------------------------------------------------
+# 10. Validation checks
+# ---------------------------------------------------------
 
-# -------------------------------------------------
-# Dashboard content display
-# -------------------------------------------------
+assert summary["Hashtag"].notna().all()
+assert summary[normalised_features].min().min() >= 0
+assert summary[normalised_features].max().max() <= 1
+assert summary["VPS"].between(0, 1).all()
 
-dashboard_df = summary[
-    [
-        "Hashtag",
-        "VPS",
-        "Engagement",
-        "SentimentScore",
-        "UniqueUsers",
-        "PostCount"
-    ]
-]
+print("\nFeature Summary:")
+print(summary.head(10))
 
-dashboard_df.to_csv(
-    PROJECT_ROOT / "data" / "viral_scores.csv",
-    index=False
-)
+print("\nVPS Statistics:")
+print(summary["VPS"].describe())
 
-print("\nSaved viral_scores.csv")
+
+# ---------------------------------------------------------
+# 11. Save feature-engineered dataset
+# ---------------------------------------------------------
+
+summary.to_csv(OUTPUT_PATH, index=False)
+
+print(f"\nFeature-engineered data saved to: {OUTPUT_PATH}")
