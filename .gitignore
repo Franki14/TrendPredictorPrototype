@@ -23,8 +23,13 @@ venv/
 # Environment variables
 .env
 
-# Generated data
+# Existing generated data
 data/clean_data.csv
 data/viral_scores.csv
 data/soc_media.csv
 
+# Raw datasets
+data/raw/
+
+# Generated processed datasets
+data/processed/*.csv
