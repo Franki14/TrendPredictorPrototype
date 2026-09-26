@@ -1,0 +1,13 @@
+Model,Metric,Estimate,CI_Lower,CI_Upper
+Balanced Logistic Regression,Accuracy,0.5477,0.4876,0.6042
+Balanced Logistic Regression,Precision,0.3869,0.32,0.4545
+Balanced Logistic Regression,Recall,0.9277,0.8684,0.9756
+Balanced Logistic Regression,F1,0.5461,0.4737,0.6118
+Balanced Logistic Regression,ROC_AUC,0.6513,0.5844,0.7174
+Balanced Logistic Regression,PR_AUC,0.3789,0.3025,0.4819
+Balanced Random Forest,Accuracy,0.7809,0.7314,0.8269
+Balanced Random Forest,Precision,0.5913,0.5,0.6783
+Balanced Random Forest,Recall,0.8193,0.7333,0.8989
+Balanced Random Forest,F1,0.6869,0.607,0.7562
+Balanced Random Forest,ROC_AUC,0.8584,0.8122,0.9019
+Balanced Random Forest,PR_AUC,0.7287,0.6401,0.8107

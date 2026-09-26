@@ -1,0 +1,5 @@
+Model,Accuracy,Precision,Recall,F1,ROC_AUC,PR_AUC
+Most Frequent Baseline,0.7067,0.0,0.0,0.0,0.5,0.2933
+Stratified Random Baseline,0.5618,0.2588,0.2651,0.2619,0.475,0.2842
+Balanced Logistic Regression,0.5477,0.3869,0.9277,0.5461,0.6513,0.3789
+Balanced Random Forest,0.7809,0.5913,0.8193,0.6869,0.8584,0.7287

@@ -1,0 +1,10 @@
+SHA-256 hashes of processed datasets used for final experiments
+
+cascade_train_network.csv
+9ba18fd054657adea3634a221445924cad569f3e138034c69c1404923ca87867
+
+cascade_validation_network.csv
+55195c82b704c85ace55777e257cf4797470d1fb900cafe9766848063877a337
+
+cascade_test_network.csv
+64fdb87fca188be1dd05c018e72bef8cdbff0e372fd7e35a6128b0479796396b
