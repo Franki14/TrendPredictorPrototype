@@ -44,7 +44,7 @@ RANDOM_STATE = 42
 # ============================================================
 
 def load_data():
-    print("Loading training and untouched test datasets...")
+    print("Loading training and held-out test datasets...")
 
     train_df = pd.read_csv(TRAIN_PATH)
     test_df = pd.read_csv(TEST_PATH)

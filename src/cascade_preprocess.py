@@ -8,6 +8,11 @@ import numpy as np
 # ---------------------------------------------------------
 
 OBSERVATION_SIZE = 5
+
+# Trend-emergence threshold:
+# 34 is the 75th percentile of final cascade size in the raw
+# training split (2,763 cascades), calculated before applying
+# the >=5-event eligibility filter required for feature extraction.
 TARGET_THRESHOLD = 34
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
