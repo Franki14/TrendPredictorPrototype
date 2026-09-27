@@ -1,0 +1,169 @@
+/* ==========================================================
+   TrendPredictor Dashboard
+   UI and Accessibility
+   ========================================================== */
+
+
+/* ----------------------------------------------------------
+   General layout
+   ---------------------------------------------------------- */
+
+   .block-container {
+    max-width: 1200px;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+
+/* ----------------------------------------------------------
+   Typography
+   ---------------------------------------------------------- */
+
+h1 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    margin-top: 1.5rem;
+}
+
+h3 {
+    margin-top: 1.25rem;
+}
+
+
+/* ----------------------------------------------------------
+   Application header
+   ---------------------------------------------------------- */
+
+.tp-header {
+    padding: 1.5rem 1.75rem;
+    border: 1px solid rgba(128, 128, 128, 0.25);
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+}
+
+.tp-header h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.tp-subtitle {
+    margin-top: 0.35rem;
+    margin-bottom: 0;
+    opacity: 0.75;
+}
+
+
+/* ----------------------------------------------------------
+   Prediction cards
+   ---------------------------------------------------------- */
+
+.tp-card {
+    border: 1px solid rgba(128, 128, 128, 0.28);
+    border-radius: 14px;
+    padding: 1.25rem;
+    min-height: 145px;
+}
+
+.tp-card-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0.70;
+    margin-bottom: 0.5rem;
+}
+
+.tp-card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.tp-card-caption {
+    font-size: 0.82rem;
+    opacity: 0.70;
+    margin-top: 0.6rem;
+}
+
+
+/* ----------------------------------------------------------
+   Status badge
+
+   Text is always present so status is not communicated
+   through colour alone.
+   ---------------------------------------------------------- */
+
+.tp-status {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+
+/* ----------------------------------------------------------
+   Section boxes
+   ---------------------------------------------------------- */
+
+.tp-section {
+    border: 1px solid rgba(128, 128, 128, 0.22);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+/* ----------------------------------------------------------
+   Sidebar
+   ---------------------------------------------------------- */
+
+section[data-testid="stSidebar"] {
+    border-right: 1px solid rgba(128, 128, 128, 0.20);
+}
+
+
+/* ----------------------------------------------------------
+   Tables
+   ---------------------------------------------------------- */
+
+[data-testid="stDataFrame"] {
+    border: 1px solid rgba(128, 128, 128, 0.20);
+    border-radius: 8px;
+}
+
+
+/* ----------------------------------------------------------
+   Accessibility
+   ---------------------------------------------------------- */
+
+button:focus,
+input:focus,
+select:focus {
+    outline: 3px solid currentColor !important;
+    outline-offset: 2px;
+}
+
+
+/* ----------------------------------------------------------
+   Responsive layout
+   ---------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .tp-card-value {
+        font-size: 1.45rem;
+    }
+
+    .tp-header {
+        padding: 1.2rem;
+    }
+}
