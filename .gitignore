@@ -33,3 +33,6 @@ data/raw/
 
 # Generated processed datasets
 data/processed/*.csv
+
+# Trained model artifacts
+models/*.joblib

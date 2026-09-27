@@ -1,0 +1,30 @@
+{
+    "model_name": "Balanced Random Forest",
+    "model_file": "final_random_forest.joblib",
+    "model_parameters": {
+        "n_estimators": 500,
+        "class_weight": "balanced",
+        "random_state": 42
+    },
+    "classification_threshold": 0.5,
+    "target": "Target",
+    "features": [
+        "TimeTo5",
+        "MinInterarrival",
+        "EarlyAcceleration",
+        "NeighbourhoodReach",
+        "EarlyDensity",
+        "MeanClustering",
+        "CommunityDiversity",
+        "MeanPageRank"
+    ],
+    "number_of_features": 8,
+    "training_rows": 2407,
+    "training_class_distribution": {
+        "0": 1702,
+        "1": 705
+    },
+    "training_dataset": "data/processed/cascade_train_network.csv",
+    "training_dataset_sha256": "9ba18fd054657adea3634a221445924cad569f3e138034c69c1404923ca87867",
+    "score_definition": "Viral Potential Score (VPS) is derived from the Random Forest predicted probability for the positive trend-emergence class, multiplied by 100."
+}
