@@ -23,7 +23,7 @@ TEST_PATH = "data/processed/cascade_test_network.csv"
 
 TARGET = "Target"
 
-# Feature set frozen during Phase 9.4.
+# Feature set frozen previously
 FEATURES = [
     "TimeTo5",
     "MinInterarrival",
@@ -92,8 +92,7 @@ def validate_data(train_df, test_df):
 
 def build_final_model():
     """
-    Final model selected during Phase 9.4 using validation
-    evidence only.
+    Final model selected using validation evidence only.
 
     No test-set information was used to select these settings.
     """

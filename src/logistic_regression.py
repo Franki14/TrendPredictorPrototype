@@ -344,7 +344,7 @@ def main():
     print(y_train.value_counts())
 
     # ========================================================
-    # Phase 8.2 — Class-Weight Experiment
+    # Class-Weight Experiment
     # ========================================================
 
     comparison_df = compare_class_weights(

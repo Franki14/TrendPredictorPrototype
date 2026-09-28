@@ -1,5 +1,5 @@
 """
-Phase 11 — Consolidated Experimental Results
+Consolidated Experimental Results
 
 This script consolidates the main experimental results obtained during
 model development and final evaluation.
@@ -31,7 +31,7 @@ def create_validation_model_summary():
     """
     Consolidate the principal validation-set model results.
 
-    These results were obtained during Phase 7/8 model development.
+    These results were obtained during model development.
     """
 
     results = [
