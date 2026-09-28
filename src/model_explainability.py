@@ -611,10 +611,10 @@ def main():
         valid_df,
     )
 
-    X_train = train_df[FEATURES]
+    X_train = train_df[FEATURES].astype(float)
     y_train = train_df[TARGET]
 
-    X_valid = valid_df[FEATURES]
+    X_valid = valid_df[FEATURES].astype(float)
     y_valid = valid_df[TARGET]
 
     # --------------------------------------------------------
